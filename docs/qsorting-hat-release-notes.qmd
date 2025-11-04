@@ -1,0 +1,20 @@
+---
+title: "Release Notes"
+date: "10-30-2025"
+date-modified: last-modified
+engine: markdown
+format: 
+  html:
+    toc: true
+---
+
+# 0.0.0-dev.1: ???? (??-??-????)
+
+## Features
+
+- `sorting-hat` allows for selective inclusion of code blocks based on language.
+  - Configuration options include:
+    - `keep`: Specify which language(s) to retain (e.g., `python`, `r`, etc.).
+    - `remove`: Specify which language(s) to exclude. 
+    - `action`: Choose how to handle non-matching code blocks (`collapse`, `remove`, etc.).
+    - `debug`: Enable detailed logging for debugging purposes.

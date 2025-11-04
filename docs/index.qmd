@@ -1,5 +1,9 @@
-# sorting-hat <img src="docs/sorting-hat-animated-logo.svg" alt="sorting-hat hexagonal logo" width="120" align="right">
-
+---
+title: "Home"
+format: 
+  html:
+    toc: false
+---
 
 The `sorting-hat` Quarto extension selectively includes or excludes code blocks based on programming language. Like the magical Sorting Hat, it sorts your code blocks into the houses (languages) you want to see. This is useful when you want to create language-specific versions of your documents from a single source.
 

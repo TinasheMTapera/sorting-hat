@@ -1,0 +1,45 @@
+---
+title: "Collapsed View"
+format: html
+filters:
+  - sorting-hat
+extensions:
+  sorting-hat:
+    keep: python  # Change this to 'r' to see R code instead, or remove to see all
+    action: collapse
+    # debug: true  # Uncomment for debugging
+---
+
+## Introduction
+
+This document demonstrates the Sorting Hat extension. By default, it's configured to show only Python code blocks, e.g. `keep: python`. You can modify the YAML header to change which languages are displayed.
+
+## Code Examples
+
+### Python
+
+```{python}
+print("Loading data...")
+```
+
+### R
+
+```{r}
+cat("Loading data...\n")
+```
+
+### Bash
+
+```{bash}
+echo "Loading data..."
+```
+
+
+### Plain Text
+
+This is a regular code block without a language specification. It will always be shown:
+
+```
+No language specified here
+This will always appear regardless of filters
+```
