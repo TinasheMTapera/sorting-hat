@@ -35,7 +35,7 @@ All code blocks not written in Python will be removed from the document.
 
 ## Export Mode (nbdev-style)
 
-When you want to export only explicitly marked code blocks (e.g., for `ripper`), enable export mode. In export mode, the filter removes every code block that does not have `#| export`. This happens before `ripper`, so only approved blocks are exported. Language filtering options are ignored in export mode.
+When you want to export only explicitly marked code blocks (e.g., for `ripper`), enable export mode. In export mode, the filter removes every code block that does not have `#| sorting-hat-export: true`. This happens before `ripper`, so only approved blocks are exported. Language filtering options are ignored in export mode.
 
 Enable export mode with document parameters or an environment variable:
 
@@ -52,15 +52,15 @@ params:
 
 Or run with `QUARTO_EXPORT=1`.
 
-Mark exportable blocks like this:
+Mark exportable blocks like this (Quarto reserves the `export` key, so use `sorting-hat-export`):
 
 ```python
-#| export
+#| sorting-hat-export: true
 def clean_data(df):
     return df.dropna()
 ```
 
-Blocks with `#| export: false` (or no export directive) are removed in export mode.
+Blocks with `#| sorting-hat-export: false` (or no export directive) are removed in export mode.
 
 ## Configuration Options
 

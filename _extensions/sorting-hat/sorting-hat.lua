@@ -89,25 +89,38 @@ local function is_truthy_env(value)
   return true
 end
 
-local function parse_export_attribute(attrs)
+local function get_export_attribute(attrs)
   if not attrs then
-    return nil
+    return nil, nil
   end
-  local value = attrs["export"]
+  if attrs["sorting-hat-export"] ~= nil then
+    return attrs["sorting-hat-export"], "sorting-hat-export"
+  end
+  if attrs["export"] ~= nil then
+    return attrs["export"], "export"
+  end
+  return nil, nil
+end
+
+local function parse_export_attribute(attrs)
+  local value, key = get_export_attribute(attrs)
   if value == nil then
-    return nil
+    return nil, nil
   end
   if value == "" then
-    return true
+    return true, key
+  end
+  if type(value) == "boolean" then
+    return value, key
   end
   local str = tostring(value):lower()
   if str == "true" or str == "1" or str == "yes" then
-    return true
+    return true, key
   end
   if str == "false" or str == "0" or str == "no" then
-    return false
+    return false, key
   end
-  return true
+  return true, key
 end
 
 -- Determine if a language should be kept based on configuration
@@ -400,10 +413,10 @@ end
 -- Filter standalone code blocks (for non-cell code blocks)
 function CodeBlock(block)
   if EXPORT_MODE then
-    local export_attr = parse_export_attribute(block.attributes)
+    local export_attr, export_key = parse_export_attribute(block.attributes)
     if DEBUG then
       quarto.log.output("\n--- Processing CodeBlock (export mode) ---")
-      quarto.log.output("Export attribute: " .. tostring(export_attr))
+      quarto.log.output("Export attribute (" .. tostring(export_key) .. "): " .. tostring(export_attr))
     end
     if export_attr then
       return block

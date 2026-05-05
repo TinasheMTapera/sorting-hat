@@ -18,4 +18,4 @@ format:
     - `remove`: Specify which language(s) to exclude. 
     - `action`: Choose how to handle non-matching code blocks (`collapse`, `remove`, etc.).
     - `debug`: Enable detailed logging for debugging purposes.
-- Export mode keeps only code blocks marked with `#| export` when `params.export: true` or `QUARTO_EXPORT` is set.
+- Export mode keeps only code blocks marked with `#| sorting-hat-export: true` when `params.export: true` or `QUARTO_EXPORT` is set (Quarto reserves the `export` key).
