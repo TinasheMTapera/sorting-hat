@@ -1,6 +1,6 @@
 ---
 title: "Release Notes"
-date: "10-30-2025"
+date: "05-05-2026"
 date-modified: last-modified
 engine: markdown
 format: 
@@ -18,3 +18,4 @@ format:
     - `remove`: Specify which language(s) to exclude. 
     - `action`: Choose how to handle non-matching code blocks (`collapse`, `remove`, etc.).
     - `debug`: Enable detailed logging for debugging purposes.
+- Export mode keeps only code blocks marked with `#| export` when `params.export: true` or `QUARTO_EXPORT` is set.

@@ -1,0 +1,14 @@
+{
+  "features": {
+    "ghcr.io/rocker-org/devcontainer-features/quarto-cli:1": {
+      "version": "1.1.5",
+      "resolved": "ghcr.io/rocker-org/devcontainer-features/quarto-cli@sha256:7d1ba1c977b72d616e76089f016c87c1a581a05386aee635bae08e5a1375507d",
+      "integrity": "sha256:7d1ba1c977b72d616e76089f016c87c1a581a05386aee635bae08e5a1375507d"
+    },
+    "ghcr.io/rocker-org/devcontainer-features/r-rig:1": {
+      "version": "1.2.4",
+      "resolved": "ghcr.io/rocker-org/devcontainer-features/r-rig@sha256:38f14bb238ee5e9ced77a4fe9375c459ca30fe32bd138480ed5eba62e1af4db2",
+      "integrity": "sha256:38f14bb238ee5e9ced77a4fe9375c459ca30fe32bd138480ed5eba62e1af4db2"
+    }
+  }
+}

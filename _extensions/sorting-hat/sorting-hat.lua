@@ -56,6 +56,60 @@ local function extract_string_list(meta_value)
   return result
 end
 
+local function is_truthy_string(value)
+  if value == nil then
+    return false
+  end
+  local str = tostring(value):lower()
+  return str == "true" or str == "1" or str == "yes"
+end
+
+local function is_truthy_meta(value)
+  if type(value) == "boolean" then
+    return value
+  end
+  local str = extract_string(value)
+  if not str or str == "" then
+    return false
+  end
+  return is_truthy_string(str)
+end
+
+local function is_truthy_env(value)
+  if value == nil then
+    return false
+  end
+  local str = tostring(value):lower()
+  if str == "0" or str == "false" or str == "no" then
+    return false
+  end
+  if is_truthy_string(str) then
+    return true
+  end
+  return true
+end
+
+local function parse_export_attribute(attrs)
+  if not attrs then
+    return nil
+  end
+  local value = attrs["export"]
+  if value == nil then
+    return nil
+  end
+  if value == "" then
+    return true
+  end
+  local str = tostring(value):lower()
+  if str == "true" or str == "1" or str == "yes" then
+    return true
+  end
+  if str == "false" or str == "0" or str == "no" then
+    return false
+  end
+  return true
+end
+
 -- Determine if a language should be kept based on configuration
 local function should_keep_language(language)
   -- If no language is specified, always keep
@@ -166,6 +220,7 @@ function Meta(meta)
   ACTION = "remove"  -- Default action: "remove" or "collapse"
   PLACEHOLDER = nil
   PLACEHOLDER_STYLE = nil
+  EXPORT_MODE = false
   
   -- Store configuration in global variables
   if meta.extensions and meta.extensions['sorting-hat'] then
@@ -217,6 +272,17 @@ function Meta(meta)
       end
     end
   end
+
+  local param_export = false
+  if meta.params and meta.params.export ~= nil then
+    param_export = is_truthy_meta(meta.params.export)
+  end
+  local env_export = is_truthy_env(os.getenv("QUARTO_EXPORT"))
+  EXPORT_MODE = param_export or env_export
+
+  if DEBUG then
+    quarto.log.output("Export mode: " .. tostring(EXPORT_MODE))
+  end
   
   return meta
 end
@@ -225,6 +291,11 @@ end
 function Div(div)
   -- Only process divs with class "cell"
   if not has_value(div.classes, "cell") then
+    return div
+  end
+
+  -- In export mode, only filter CodeBlocks; leave cells intact.
+  if EXPORT_MODE then
     return div
   end
   
@@ -328,6 +399,18 @@ end
 
 -- Filter standalone code blocks (for non-cell code blocks)
 function CodeBlock(block)
+  if EXPORT_MODE then
+    local export_attr = parse_export_attribute(block.attributes)
+    if DEBUG then
+      quarto.log.output("\n--- Processing CodeBlock (export mode) ---")
+      quarto.log.output("Export attribute: " .. tostring(export_attr))
+    end
+    if export_attr then
+      return block
+    end
+    return pandoc.Null()
+  end
+
   -- Skip if this is inside a cell (has cell-code class)
   if block.classes and has_value(block.classes, "cell-code") then
     return block
